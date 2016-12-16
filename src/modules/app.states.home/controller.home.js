@@ -4,7 +4,7 @@
 (function (module) {
   'use strict';
 
-  function HomeController($scope,statesService) {
+  function HomeController($scope,statesService,shakeService,popupService) {
     var controller = this;
 
     $scope.search = { query: 'auto', results: []};//init ,texte default
@@ -21,12 +21,29 @@
     //});
 
     //debugger zuihouyewujiaguoxianshi(synchone)
+
+  controller.discoverMovie = function(){
+    if (popupService.isOpen()){return;}
+    statesService.discoverMovie().then(function (movie){
+      popupService.open(module,'smartphone/popup.discover',movie);
+    });
   }
 
+  $scope.$on('$ionicView.entre',function(){
+    shakeService.listen(controller.discoverMovie);
+  });
+
+  $scope.$on('$ionicView.leave',function(){
+    shakeService.stopListening();
+  });
+
+
+}
   module.controller('homeController', [
     '$scope',
     'statesService',//2）->3)pug网页如何显示
-
+    'shakeService',
+    'popupService',
     HomeController
   ]);
 

@@ -1,21 +1,25 @@
-ion-view.view-home(view-title="Titre Home=my acceuil~")
+ion-view.view-home(view-title="Accueil")
   ion-header-bar.bar-subheader.item-input-inset
     label.item-input-wrapper
       i.icon.ion-ios-search.placeholder-icon
       input(
-        type="search",
+        placeholder="Rechercher",
         ng-model="search.query",
-        placeholder="Rechercher")
-    button.button.button-clear.button-positive(
-      ng-disabled="search.query.length< 3",
-      on-tap="homeController.search()") ok
+        type="search")
+    button.button.button-clear.button-royal(
+      ng-disabled="search.query.length < 3",
+      on-tap="homeController.search()",
+      type="button")
+      | OK
   ion-content
     ion-list
-      ion-item(ng-if="search.results.length < 1")
-        | no nono
-      ion-item.item-icon-right(
+      ion-item.item-divider Résultats
+      ion-item(ng-if="search.results.length < 1") Aucun résultat
+      ion-item.item-text-wrap.item-thumbnail-left.item-icon-right(
         ng-repeat="result in search.results",
-        ui-state-parame="{id : result.id}",
+        ui-state-params="{ id: result.id }",
         ui-state="STATE_DETAILS")
-        | {{ result.title}}
+        img(ng-src="{{ result.poster }}", ng-if="result.poster", alt="Poster")
+        h2 {{ result.title }}
+        p {{ result.overview }}
         i.icon.ion-ios-arrow-forward
